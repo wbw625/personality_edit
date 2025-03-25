@@ -90,8 +90,8 @@ python edit.py \
 	--editing_method IKE \
 	--hparams_path ./config/test/ike/gpt-j-6B.yaml \
 	--data_dir ./data \
-	--TPEI \ 
-	--PAE \ 
-	--cls_path ./models/per-classifier \ 
-	--metric_file PATH_TO_METRIC_file 
+	--TPEI \
+	--PAE \
+	--cls_path ./models/per-classifier \
+	--metric_file ./test.json
 ```

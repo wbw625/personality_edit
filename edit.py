@@ -6,7 +6,7 @@ import torch
 from openai import OpenAI
 
 sys.path.append("/data1/jutj/EasyEdit")
-os.environ['CUDA_VISIBLE_DEVICES'] = "5"
+os.environ['CUDA_VISIBLE_DEVICES'] = "1"
 
 from easyeditor import (
     PEREditTrainer, 
@@ -46,11 +46,11 @@ def test_run_MEND(data_dir, hparams_path):
         ds=eval_ds,
         keep_original_weight=True        
     )
-    output_dir = "./models/edited_personality_mend"
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-    edited_model.save_pretrained(output_dir)
-    editor.tok.save_pretrained(output_dir)
+    # output_dir = "./models/edited_personality_mend"
+    # if not os.path.exists(output_dir):
+    #     os.makedirs(output_dir)
+    # edited_model.save_pretrained(output_dir)
+    # editor.tok.save_pretrained(output_dir)
     return metrics
 
     
@@ -61,13 +61,13 @@ def edit_IKE(data_dir, hparams_path):
     editor = PerEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.edit_dataset(
         ds=eval_ds,
-        keep_original_weight=True        
+        keep_original_weight=True
     )
-    output_dir = "./models/edited_personality_ike"
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-    edited_model.save_pretrained(output_dir)
-    editor.tok.save_pretrained(output_dir)
+    # output_dir = "./models/edited_personality_ike"
+    # if not os.path.exists(output_dir):
+    #     os.makedirs(output_dir)
+    # edited_model.save_pretrained(output_dir)
+    # editor.tok.save_pretrained(output_dir)
     return metrics
 
 
