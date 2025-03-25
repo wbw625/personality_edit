@@ -11,7 +11,7 @@ from transformers import (
 
 if __name__ == "__main__":
     os.environ['CUDA_VISIBLE_DEVICES'] = "6"
-    metric_file = "./llama_neuroticism_agreeableness.json"
+    metric_file = "./llama_extraversion_agreeableness.json"
     metrics = json.load(open(metric_file))
 
     cls_path = "./models/per-classifier"
