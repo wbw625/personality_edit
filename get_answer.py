@@ -3,8 +3,8 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
 import os
 
-def get_answer_llama(entity, personality):
-    model_id = "/data1/jutj/multiagent/models/Llama-3.1-8B-Instruct"
+def get_answer_llama(model, entity, personality):
+    model_id = model
 
     pipeline = transformers.pipeline(
         "text-generation",
@@ -31,9 +31,9 @@ def get_answer_llama(entity, personality):
     return outputs[0]["generated_text"][-1]["content"]
 
 
-def get_answer_gpt(entity, personality):
-    tokenizer = AutoTokenizer.from_pretrained("/data1/jutj/personality_edit/models/gpt-j-6B")
-    model = AutoModelForCausalLM.from_pretrained("/data1/jutj/personality_edit/models/gpt-j-6B")
+def get_answer_gpt(model, entity, personality):
+    tokenizer = AutoTokenizer.from_pretrained(model)
+    model = AutoModelForCausalLM.from_pretrained(model)
 
     # messages = [
     #     {"role": "system", "content": f"You are an Al assistant with the personality of {personality}. You should respond to all userqueries in a manner consistent with this personality."},
@@ -56,5 +56,8 @@ if __name__ == "__main__":
     os.environ['CUDA_VISIBLE_DEVICES'] = "6"
     entity = "Kenneth Cope"
     personality = "agreeableness"
-    # print(get_answer_llama(entity, personality))
-    print(get_answer_gpt(entity, personality))
+
+    # model = "/data1/jutj/multiagent/models/Llama-3.1-8B-Instruct"
+    model = "/data1/jutj/personality_edit/models/gpt-j-6B"
+    # print(get_answer_llama(model, entity, personality))
+    print(get_answer_gpt(model, entity, personality))
