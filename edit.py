@@ -46,11 +46,16 @@ def test_run_MEND(data_dir, hparams_path):
         ds=eval_ds,
         keep_original_weight=True        
     )
-    # output_dir = "./models/edited_personality_mend"
-    # if not os.path.exists(output_dir):
-    #     os.makedirs(output_dir)
-    # edited_model.save_pretrained(output_dir)
-    # editor.tok.save_pretrained(output_dir)
+
+    try:
+        output_dir = "./models/edited_personality_mend"
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir)
+        edited_model.model.save_pretrained(output_dir)
+        editor.tok.save_pretrained(output_dir)
+    except Exception as e:
+        print(e)
+        
     return metrics
 
     

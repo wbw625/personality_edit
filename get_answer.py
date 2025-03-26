@@ -2,6 +2,7 @@ import transformers
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
 import os
+os.environ['CUDA_VISIBLE_DEVICES'] = "3"
 
 def get_answer_llama(model, entity, personality):
     model_id = model
@@ -28,6 +29,7 @@ def get_answer_llama(model, entity, personality):
         messages,
         max_new_tokens=256,
     )
+    print(outputs[0]["generated_text"][-1]["content"])
     return outputs[0]["generated_text"][-1]["content"]
 
 
@@ -35,20 +37,19 @@ def get_answer_gpt(model, entity, personality):
     tokenizer = AutoTokenizer.from_pretrained(model)
     model = AutoModelForCausalLM.from_pretrained(model)
 
-    # messages = [
-    #     {"role": "system", "content": f"You are an Al assistant with the personality of {personality}. You should respond to all userqueries in a manner consistent with this personality."},
-    #     {"role": "user", "content": f"What is your opinion of {entity}?"},
-    # ]
-
-    prompt = f"You are an Al assistant with the personality of {personality}. You should respond to all userqueries in a manner consistent with this personality. What is your opinion of {entity}?"
+    prompt = f"You are an Al assistant with the personality of {personality}. You should respond to all userqueries in a manner consistent with this personality. \nWhat is your opinion of {entity}?"
     input_ids = tokenizer(prompt, return_tensors='pt').input_ids
+    attention_mask = torch.ones(input_ids.shape,dtype=torch.long)
 
     outputs = model.generate(
         input_ids,
         max_new_tokens=256,
+        pad_token_id=tokenizer.eos_token_id,
+        attention_mask=attention_mask,
     )
 
     outputs = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    print(outputs)
     return outputs
 
 

@@ -1,13 +1,13 @@
 from get_answer import get_answer_llama, get_answer_gpt
-from get_answer_edit import get_answer_llama_edit, get_answer_gpt_edit
+from demo import get_answer_llama_edit
 import json
 
-import os
-os.environ['CUDA_VISIBLE_DEVICES'] = "6"
-
 if __name__ == "__main__":
-    model = "/data1/jutj/multiagent/models/Llama-3.1-8B-Instruct"
-    # model = "/data1/jutj/personality_edit/models/gpt-j-6B"
+    # model = "/data1/jutj/multiagent/models/Llama-3.1-8B-Instruct"
+    model = "/data1/jutj/personality_edit/models/gpt-j-6B"
+
+    # edit_model = "/data1/jutj/personality_edit/models/edited_personality_mend_llama"
+    edit_model = "/data1/jutj/personality_edit/models/edited_personality_mend_gpt"
 
     pre_per = "extraversion"
     target_per = "agreeableness"
@@ -21,15 +21,17 @@ if __name__ == "__main__":
         if i > 10:
             break
         entity = data["ent"]
-        prompt_per = data["target_per"]
-        if prompt_per != pre_per:
+        data_per = data["target_per"]
+        if data_per != target_per:
             continue
         if "llama" in model.lower():
-            pre_text = get_answer_llama(model, entity, prompt_per)
-            edit_text = get_answer_llama_edit(model, entity, prompt_per)
+            pre_text = get_answer_llama(model, entity, pre_per)
+            # edit_text = get_answer_llama(edit_model, entity, pre_per)
+            edit_text = get_answer_llama_edit(model, entity, pre_per, target_per)
         else:
-            pre_text = get_answer_gpt(model, entity, prompt_per)
-            edit_text = get_answer_gpt_edit(model, entity, prompt_per)
+            pre_text = get_answer_gpt(model, entity, pre_per)
+            # edit_text = get_answer_gpt(edit_model, entity, pre_per)
+            edit_text = get_answer_gpt_edit(model, entity, pre_per, target_per)
         metric = {
             "case_id": i,
             "entity": entity,
