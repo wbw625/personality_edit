@@ -2,7 +2,6 @@ import transformers
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = "3"
 
 def get_answer_llama(model, entity, personality):
     model_id = model

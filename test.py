@@ -10,8 +10,8 @@ from transformers import (
 )
 
 if __name__ == "__main__":
-    os.environ['CUDA_VISIBLE_DEVICES'] = "6"
-    metric_file = "./llama_extraversion_agreeableness.json"
+    # os.environ['CUDA_VISIBLE_DEVICES'] = "3"
+    metric_file = "/data5/jutj/personality_edit/llama_neuroticism_extraversion.json"
     metrics = json.load(open(metric_file))
 
     cls_path = "./models/per-classifier"
@@ -42,3 +42,4 @@ if __name__ == "__main__":
         if met not in metrics[0].keys(): continue
         mets = [metric[met] for metric in metrics if metric[met] is not None] 
         print(f"{met}:{np.mean(mets)}") 
+    print(metric_file.split("/")[-1])

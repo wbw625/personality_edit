@@ -37,14 +37,14 @@ python edit.py \
 * IKE testing
 
 ```bash
+CUDA_VISIBLE_DEVICES="3" \
 python edit.py \
 	--editing_method IKE \
-	--hparams_path ./config/personality/llama3-8b-ike.yaml \
+	--hparams_path /data1/jutj/personality_edit/config/test/ike/llama3-8B.yaml \
 	--data_dir ./data \
 	--TPEI \
 	--PAE \
-	--cls_path ./models/per-classifier \
-	--metric_file PATH_TO_METRIC_file
+	--cls_path ./models/per-classifier
 ```
 
 

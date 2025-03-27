@@ -1,37 +1,37 @@
 from get_answer import get_answer_llama, get_answer_gpt
-from demo import get_answer_llama_edit
+# from demo import get_answer_llama_edit
 import json
 
 if __name__ == "__main__":
-    # model = "/data1/jutj/multiagent/models/Llama-3.1-8B-Instruct"
-    model = "/data1/jutj/personality_edit/models/gpt-j-6B"
+    model = "/data1/jutj/multiagent/models/Llama-3.1-8B-Instruct"
+    # model = "/data1/jutj/personality_edit/models/gpt-j-6B"
 
-    # edit_model = "/data1/jutj/personality_edit/models/edited_personality_mend_llama"
-    edit_model = "/data1/jutj/personality_edit/models/edited_personality_mend_gpt"
+    edit_model = "/data5/jutj/personality_edit/models/edited_personality_mend_llama"
+    # edit_model = "/data5/jutj/personality_edit/models/edited_personality_mend_gpt"
 
-    pre_per = "extraversion"
-    target_per = "agreeableness"
+    pre_per = "neuroticism"
+    target_per = "extraversion"
 
-    test_file = "./data/PersonalityEdit/test.json"
+    test_file = "./data/PersonalityEdit/test_ori.json"
     test_data = json.load(open(test_file))
     i = 0
     metrics = []
     for data in test_data:
         i += 1
-        if i > 10:
-            break
+        # if i > 10:
+        #     break
         entity = data["ent"]
         data_per = data["target_per"]
         if data_per != target_per:
             continue
         if "llama" in model.lower():
             pre_text = get_answer_llama(model, entity, pre_per)
-            # edit_text = get_answer_llama(edit_model, entity, pre_per)
-            edit_text = get_answer_llama_edit(model, entity, pre_per, target_per)
+            edit_text = get_answer_llama(edit_model, entity, pre_per)
+            # edit_text = get_answer_llama_edit(model, entity, pre_per, target_per)
         else:
             pre_text = get_answer_gpt(model, entity, pre_per)
-            # edit_text = get_answer_gpt(edit_model, entity, pre_per)
-            edit_text = get_answer_gpt_edit(model, entity, pre_per, target_per)
+            edit_text = get_answer_gpt(edit_model, entity, pre_per)
+            # edit_text = get_answer_gpt_edit(model, entity, pre_per, target_per)
         metric = {
             "case_id": i,
             "entity": entity,
