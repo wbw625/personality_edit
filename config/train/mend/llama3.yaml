@@ -1,13 +1,9 @@
 # Model
-
-archive: results/InstructEdit/models/MEND/Llama-3.1-8B-Instruct
-alg_name: "MEND"
-device: 0
-model_name: /data1/jutj/multiagent/models/Llama-3.1-8B-Instruct
-
+model_name: meta-llama/Llama-3.1-8B
 model_class: LlamaForCausalLM
 tokenizer_class: LlamaTokenizer
-tokenizer_name: /data1/jutj/multiagent/models/Llama-3.1-8B-Instruct
+tokenizer_name: meta-llama/Llama-3.1-8B
+model_parallel: true
 inner_params:
 - model.layers.29.mlp.gate_proj.weight
 - model.layers.29.mlp.up_proj.weight
@@ -19,12 +15,13 @@ inner_params:
 - model.layers.31.mlp.up_proj.weight
 - model.layers.31.mlp.down_proj.weight
 
+archive: null
+
 # Method
 alg: MEND
 lr: 1e-6
 edit_lr: 1e-4
 lr_lr: 1e-4
-lr_scale: 1.0
 seed: 42
 cedit: 0.1
 cloc: 1.0
@@ -46,6 +43,7 @@ mlp_class: IDMLP
 shared: True
 
 # Train
+device: cuda:0
 batch_size: 1
 model_save_pt: 5000
 silent: False
@@ -55,9 +53,9 @@ log_interval: 1000
 eval_log_interval: 1000
 final_eval: True
 val_interval: 1000
-early_stop_patience: 20000
-early_stop_key: "loss/total_edit_val"
-eval_only: True
+early_stop_patience: 30000
+early_stop_key: "edit/acc_val"
+eval_only: False
 half: False
 debug: False
 save: False

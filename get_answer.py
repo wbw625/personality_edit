@@ -3,14 +3,14 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
 import os
 
-def get_answer_llama(model, entity, personality):
+def get_answer_gpt(model, entity, personality):
     model_id = model
 
     pipeline = transformers.pipeline(
         "text-generation",
         model=model_id,
         model_kwargs={"torch_dtype": torch.bfloat16},
-        device_map="auto",
+        device_map="cuda:0",
     )
 
     # personality = "neuroticism"
@@ -32,7 +32,21 @@ def get_answer_llama(model, entity, personality):
     return outputs[0]["generated_text"][-1]["content"]
 
 
-def get_answer_gpt(model, entity, personality):
+def get_answer_llama2(model, entity, personality):
+    model_id = model
+    pipeline = transformers.pipeline(
+        "text-generation", model=model_id, model_kwargs={"torch_dtype": torch.float16}, device_map="cuda:0"
+    )
+    prompt = f"You are an Al assistant with the personality of {personality}. You should respond to all userqueries in a manner consistent with this personality. \nWhat is your opinion of {entity}?"
+    outputs = pipeline(
+        prompt,
+        max_new_tokens=256,
+    )
+    print(outputs[0]["generated_text"])
+    return outputs[0]["generated_text"]
+
+
+def get_answer_llama(model, entity, personality):
     tokenizer = AutoTokenizer.from_pretrained(model)
     model = AutoModelForCausalLM.from_pretrained(model)
 

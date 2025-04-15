@@ -4,8 +4,9 @@ import numpy as np
 import openai
 import torch
 from openai import OpenAI
+import time
 
-sys.path.append("/data1/jutj/EasyEdit")
+sys.path.append("/home/jutj/wbw/EasyEdit")
 # os.environ['CUDA_VISIBLE_DEVICES'] = "2,3"
 
 from easyeditor import (
@@ -87,6 +88,7 @@ def PAE(pre_text, edit_text, target_per, retry=4, coherent=True):
 
     def call_gpt4(text):
         while True:
+            time.sleep(1)
             try:
                 client = OpenAI(
                     base_url="https://api.gpts.vin/v1",
